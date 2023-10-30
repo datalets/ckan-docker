@@ -16,20 +16,26 @@ FROM ckan/ckan-dev:2.10.1
 #    pip3 install -r ${APP_DIR}/src/ckanext-xloader/requirements.txt && \
 #    pip3 install -U requests[security]
 
-### Harvester ###
-RUN pip3 install -e 'git+https://github.com/ckan/ckanext-harvest.git@v1.5.4#egg=ckanext-harvest' && \
-    pip3 install -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt
-# will also require gather_consumer and fetch_consumer processes running (please see https://github.com/ckan/ckanext-harvest)
+### Fluent ###
+RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-fluent.git#egg=ckanext-fluent'
 
 ### Scheming ###
-#RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
+RUN  pip3 install -e 'git+https://github.com/ckan/ckanext-scheming.git@master#egg=ckanext-scheming'
 
 ### Pages ###
 #RUN  pip3 install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages
 
+### Harvester ###
+RUN pip3 install -e 'git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest' && \
+    pip3 install -r ${APP_DIR}/src/ckanext-harvest/pip-requirements.txt
+# will also require gather_consumer and fetch_consumer processes running (please see https://github.com/ckan/ckanext-harvest)
+
 ### DCAT ###
-RUN  pip3 install -e git+https://github.com/ckan/ckanext-dcat.git@v1.5.0#egg=ckanext-dcat && \
-     pip3 install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/v1.5.0/requirements.txt
+RUN  pip3 install -e git+https://github.com/ckan/ckanext-dcat.git@v1.5.1#egg=ckanext-dcat && \
+     pip3 install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/v1.5.1/requirements.txt
+
+## Make sure extra libraries needed for harvesting are available
+RUN pip3 install -U rdflib-jsonld iribaker
 
 # Clone the extension(s) your are writing for your own project in the `src` folder
 # to get them mounted in this image at runtime
