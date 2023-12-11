@@ -20,6 +20,7 @@ RUN pip3 install -U rdflib-jsonld iribaker
 
 # Copy custom initialization scripts
 COPY docker-entrypoint.d/* /docker-entrypoint.d/
+COPY supervisord.d/* /etc/supervisord.d/
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
 # runtime mounted ones)
