@@ -13,6 +13,8 @@ services:
       dockerfile: Dockerfile.dev
       args:
         - TZ=${TZ}
+    networks:
+      - webnet
     env_file:
       - .env
     depends_on:
@@ -69,3 +71,7 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "-e", "QUIT"]
+
+networks:
+  webnet:
+    external: true
